@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">SodexoCheck</string>
+    <string name="title_activity_datos_de_sesion">Iniciar Sesión</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_rut">Rut</string>
+    <string name="prompt_password">Pin</string>
+    <string name="action_sign_in">Iniciar sesión</string>
+    <string name="action_sign_in_short">Entrar</string>
+    <string name="error_invalid_rut">El rut no es valido :\'(</string>
+    <string name="error_invalid_password">El pin no es valido</string>
+    <string name="error_incorrect_password">Pin incorrecto</string>
+    <string name="error_field_required">Este campo es requerido</string>
+    <string name="error_unknown">Error desconocido</string>
+    <string name="logo_description">Application Logo</string>
+    <string name="cb_rememberMe">Recuerdame</string>
+    <string name="exampleName">Jhonny Melavo Láspatas</string>
+    <string name="logMe">Mantenerme Conectado</string>
+    <string name="button_latestTransactions">Ver Ultimas Transacciones</string>
+    <string name="currentBalance">Saldo Actual</string>
+    <string name="_exampleBalance">$32650</string>
+</resources>

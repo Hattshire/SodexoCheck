@@ -1,0 +1,14 @@
+<resources>
+    <color name="colorGreenAccent">#72bb53</color>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="SodexoCheck">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="SodexoCheck" parent="Theme.AppCompat.NoActionBar" />
+
+</resources>

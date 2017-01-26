@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" >
+    <LinearLayout android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/my_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorAccent"
+            android:elevation="4dp"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
+            />
+        <!-- USER DETAILS -->
+        <RelativeLayout
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingRight="20dp"
+            android:paddingLeft="20dp"
+            android:paddingEnd="20dp"
+            android:paddingStart="20dp"
+            android:paddingTop="20dp">
+
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                app:srcCompat="@drawable/h_coffee_cup"
+                android:id="@+id/imageView"/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_toRightOf="@id/imageView"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/humanName"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:textSize="25sp"
+                    android:textColor="@color/colorAccent"
+                    android:text="@string/exampleName"/>
+                <TextView
+                    android:id="@+id/school"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:textColor="@color/colorAccent"
+                    android:text="U.T.F. SANTA MARIA"/>
+                <TextView
+                    android:id="@+id/cardStatus"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:textColor="@color/colorAccent"
+                    android:textStyle="italic"
+                    android:text="Tarjeta Activa"/>
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <!-- BUTTONS - ->
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"-->
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="180dp"
+                android:layout_margin="20dp"
+                android:background="@color/colorAccent">
+
+                <TextView
+                    android:id="@+id/balance"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:text="@string/_exampleBalance"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:textSize="50sp"
+                    android:textColor="@color/colorPrimary"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/currentBalance"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="30sp"
+                    android:layout_margin="15dp"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="180dp"
+                android:layout_margin="20dp"
+                android:layout_marginBottom="0dp"
+                android:background="@color/colorGreenAccent">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/button_latestTransactions"
+                android:textColor="@color/colorPrimary"
+                android:gravity="center"
+                android:textSize="40sp"
+                android:textStyle="bold"/>
+            </RelativeLayout>
+
+        <!--/android.support.v7.widget.RecyclerView-->
+
+    </LinearLayout>
+</ScrollView>
