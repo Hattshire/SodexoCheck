@@ -19,4 +19,6 @@
     <string name="button_latestTransactions">Ver Ultimas Transacciones</string>
     <string name="currentBalance">Saldo Actual</string>
     <string name="_exampleBalance">$32650</string>
+    <string name="cardStatus">"Tarjeta %1$s"</string>
+    <string name="balanceFormat">$%1$d</string>
 </resources>

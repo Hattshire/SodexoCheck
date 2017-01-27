@@ -17,10 +17,6 @@ import org.json.JSONObject;
 
 import java.net.URL;
 
-/**
- * Created by DOSmasSOD on 19/01/2017.
- */
-
 public class MainPage extends AppCompatActivity {
 
     String Token;
@@ -45,6 +41,7 @@ public class MainPage extends AppCompatActivity {
         setContentView(R.layout.activity_main_page);
 
         preferences = PreferenceManager.getDefaultSharedPreferences( getBaseContext() );
+        preferencesEditor = preferences.edit();
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
@@ -62,11 +59,20 @@ public class MainPage extends AppCompatActivity {
 
         name.setText( preferences.getString( "humanName", "" ) );
         institution.setText( preferences.getString( "institution", "" ) );
-        cardStatus.setText( "Tarjeta " + preferences.getString( "cardStatus", "" ) );
+        cardStatus.setText(
+                String.format(
+                        getString(R.string.cardStatus),
+                        preferences.getString( "cardStatus", "" )
+                )
+        );
 
         (new comeBotas()).execute();
 
-        balance.setText( "$" + preferences.getInt( "balance", 0 ) );
+        balance.setText(
+                String.format(
+                        getString(R.string.balanceFormat), preferences.getInt( "latestBalance", 0 )
+                )
+        );
 
     }
 
@@ -97,9 +103,17 @@ public class MainPage extends AppCompatActivity {
 
     void endSession()
     {
-        preferencesEditor = preferences.edit();
         preferencesEditor.putBoolean( "AutoLog", false);
+        preferencesEditor.putString( "token", "");
         preferencesEditor.commit();
+        if ( preferences.getBoolean( "Remember", false ) )
+        {
+            preferencesEditor.putString( "humanName", "");
+            preferencesEditor.putString( "cardStatus", "");
+            preferencesEditor.putString( "institution", "");
+            preferencesEditor.commit();
+        }
+        finish();
     }
 
     void refreshBalanceData()
@@ -107,11 +121,13 @@ public class MainPage extends AppCompatActivity {
         new comeBotas().execute();
     }
 
+    @Override
+    public void onBackPressed() {
+
+    }
+
     class comeBotas extends AsyncTask<URL, Integer, String>
     {
-        String name = "";
-        String instituition;
-
         int _balance = 0;
         @Override
         protected String doInBackground( URL... urls )
@@ -131,7 +147,13 @@ public class MainPage extends AppCompatActivity {
         @Override
         protected void onPostExecute( String texto )
         {
-            balance.setText( "$" + _balance );
+            preferencesEditor.putInt( "latestBalance", _balance );
+            balance.setText(
+                    String.format(
+                            getString( R.string.balanceFormat ),
+                            _balance
+                    )
+            );
         }
     }
 }

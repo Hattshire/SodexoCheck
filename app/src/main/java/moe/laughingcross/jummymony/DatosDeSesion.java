@@ -92,6 +92,9 @@ public class DatosDeSesion extends AppCompatActivity {
         {
             //TODO: Show error to user
             Log.e( "ERROR/Settings", "Settings fuckedUp, flyaway" );
+        } catch ( Exception e )
+        {
+            Log.e( "ERROR", e.getLocalizedMessage(), e.getCause() );
         }
             setContentView(R.layout.activity_datos_de_sesion);
             campoRut = (EditText) findViewById(R.id.rut);
@@ -146,7 +149,9 @@ public class DatosDeSesion extends AppCompatActivity {
             preferencesEditor.commit();
             new autenticacion().execute();
         } catch ( Exception e )
-        {}
+        {
+            Log.e( "ERROR", e.getLocalizedMessage(), e.getCause() );
+        }
     }
     public class autenticacion extends AsyncTask<URL,Integer,String>
     {
@@ -199,9 +204,8 @@ public class DatosDeSesion extends AppCompatActivity {
         protected void onPostExecute(String texto) {
             //TODO: texto = ACTION|MESSAGE
             unlock();
-            if ( Error > 0 && !Token.isEmpty() || !ServiceId.isEmpty() )
+            if ( Error == 0 )
             {
-                //texto = Token;
                 Recordar();
 
                 preferencesEditor.putString("humanName",humanName);
