@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content" >
-    <LinearLayout android:orientation="vertical"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
+
         <android.support.v7.widget.Toolbar
-            android:id="@+id/my_toolbar"
+            android:id="@+id/main_page_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/colorAccent"
@@ -17,9 +20,9 @@
             />
         <!-- USER DETAILS -->
         <RelativeLayout
-
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+
             android:paddingRight="20dp"
             android:paddingLeft="20dp"
             android:paddingEnd="20dp"
@@ -30,12 +33,15 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 app:srcCompat="@drawable/h_coffee_cup"
-                android:id="@+id/imageView"/>
+                android:id="@+id/imageView"
+                android:contentDescription="@string/logo_description"/>
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:layout_toRightOf="@id/imageView"
+                android:layout_toEndOf="@id/imageView"
                 android:orientation="vertical">
                 <TextView
                     android:id="@+id/humanName"
@@ -51,7 +57,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="end"
                     android:textColor="@color/colorAccent"
-                    android:text="U.T.F. SANTA MARIA"/>
+                    android:text="@string/default_college"/>
                 <TextView
                     android:id="@+id/cardStatus"
                     android:layout_width="fill_parent"
@@ -59,7 +65,7 @@
                     android:gravity="end"
                     android:textColor="@color/colorAccent"
                     android:textStyle="italic"
-                    android:text="Tarjeta Activa"/>
+                    android:text="@string/example_cardStatus"/>
             </LinearLayout>
 
         </RelativeLayout>
@@ -70,9 +76,10 @@
             android:layout_height="wrap_content"-->
 
             <RelativeLayout
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="180dp"
                 android:layout_margin="20dp"
+                android:layout_marginBottom="0dp"
                 android:background="@color/colorAccent">
 
                 <TextView
@@ -99,15 +106,16 @@
                 android:layout_height="180dp"
                 android:layout_margin="20dp"
                 android:layout_marginBottom="0dp"
-                android:background="@color/colorGreenAccent">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="@string/button_latestTransactions"
-                android:textColor="@color/colorPrimary"
-                android:gravity="center"
-                android:textSize="40sp"
-                android:textStyle="bold"/>
+                android:background="@color/colorGreenAccent"
+                android:onClick="changeToLatestTransactions">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/button_latestTransactions"
+                    android:textColor="@color/colorPrimary"
+                    android:gravity="center"
+                    android:textSize="40sp"
+                    android:textStyle="bold"/>
             </RelativeLayout>
 
         <!--/android.support.v7.widget.RecyclerView-->

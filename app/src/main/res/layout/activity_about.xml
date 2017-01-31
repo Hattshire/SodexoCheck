@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/about_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorAccent"
+            android:elevation="4dp"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
+            />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:paddingRight="20dp"
+            android:paddingLeft="20dp"
+            android:paddingEnd="20dp"
+            android:paddingStart="20dp"
+            android:paddingTop="20dp">
+            <ImageView
+                android:id="@+id/about_image"
+                android:layout_width="wrap_content"
+                android:layout_height="210dp"
+                android:src="@drawable/h_coffee_cup"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="15dp"
+                />
+            <TextView
+                android:id="@+id/about_title"
+                android:layout_below="@id/about_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/about_page"
+                android:layout_centerHorizontal="true"
+                android:textSize="50sp"
+                />
+            <TextView
+                android:id="@+id/about_text"
+                android:layout_below="@id/about_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/about_page_text"
+                android:textSize="16sp"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="15dp"
+                />
+        </RelativeLayout>
+    </LinearLayout>
+
+</ScrollView>

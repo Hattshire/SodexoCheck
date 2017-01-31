@@ -18,8 +18,8 @@ import java.net.URL;
 
 public class DatosDeSesion extends AppCompatActivity {
 
-    TextView campoRut;
-    TextView campoPin;
+    EditText campoRut;
+    EditText campoPin;
 
     String Token = "";
     String ClientId;
@@ -91,7 +91,7 @@ public class DatosDeSesion extends AppCompatActivity {
         } catch ( ClassCastException e )
         {
             //TODO: Show error to user
-            Log.e( "ERROR/Settings", "Settings fuckedUp, flyaway" );
+            Log.e( "ERROR/Settings", "Settings fuckedUp, flyaway", e.getCause() );
         } catch ( Exception e )
         {
             Log.e( "ERROR", e.getLocalizedMessage(), e.getCause() );
@@ -103,24 +103,29 @@ public class DatosDeSesion extends AppCompatActivity {
             campoRut.addTextChangedListener(tWatch);
             campoPin.addTextChangedListener(tWatch);
 
-            //campoRut.setText( preferences.getString("Rut","") );
-            //campoPin.setText( preferences.getString("Pin","") );
+            campoRut.setText( preferences.getString("Rut","") );
+            campoPin.setText( preferences.getString("Pin","") );
     }
 
     private void Recordar()
     {
+        preferencesEditor.putString("token", Token);
         if ( ( (CheckBox) findViewById( R.id.cb_rememberMe ) ).isChecked() )
         {
             preferencesEditor.putBoolean("Remember", true);
             preferencesEditor.putString("Rut", _Rut);
             preferencesEditor.putString("Pin", _Pin);
-            preferencesEditor.putString("token", Token);
             preferencesEditor.commit();
+        } else {
+            preferencesEditor.putString("Rut", "");
+            preferencesEditor.putString("Pin", "");
+            campoRut.setText( "" );
+            campoPin.setText( "" );
+
         }
         if ( ( (CheckBox) findViewById( R.id.cb_logMe ) ).isChecked() )
         {
             preferencesEditor.putBoolean("AutoLog", true);
-            preferencesEditor.putString("token", Token);
             preferencesEditor.commit();
         }
     }
@@ -134,7 +139,7 @@ public class DatosDeSesion extends AppCompatActivity {
         i.putExtra( "LoginParams", LoginParams );
         i.putExtra( "SesionCookies", SessionCookies );
 
-        startActivity(i);
+        startActivityForResult(i, 0);
     }
 
     public void Autenticar(View view)
@@ -194,11 +199,12 @@ public class DatosDeSesion extends AppCompatActivity {
             SessionCookies = parser.cookies;
             Error = autenticador.ErrorCode;
             ErrorDescription = autenticador.ErrorDescription;
-            if ( autenticador.ErrorCode > 0 )
+            /*if ( autenticador.ErrorCode > 0 )
             {
                 textoRetornado = "" + autenticador.ErrorCode + ": " + autenticador.ErrorDescription;
-            }
-            return textoRetornado;
+            }*/
+//            return textoRetornado;
+            return autenticador.ErrorDescription;
         }
         @Override
         protected void onPostExecute(String texto) {

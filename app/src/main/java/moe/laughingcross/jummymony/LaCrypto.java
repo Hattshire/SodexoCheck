@@ -38,23 +38,23 @@ private static String encode64(String llave)
             //byte[] billete = llave.getBytes("UTF-8");
             //billete = DigestUtils.getSha1Digest().digest(billete);
             //char[] billetes = Hex.encodeHex(billete);
-            vuelto = new String(Hex.encodeHex(DigestUtils.getSha1Digest().digest(llave.getBytes("UTF-8"))));
-        } catch (Exception e) {
-            Log.e ("sha1(llave)","No se pudo hacer Sha1::"+e.getLocalizedMessage());
+            vuelto = new String( Hex.encodeHex(
+                    DigestUtils.getSha1Digest().digest(
+                            llave.getBytes("UTF-8")
+                    )
+            ));
+
+        } catch ( Exception e ) {
+            Log.w ( "sha1(llave)","No se pudo hacer Sha1::"+e.getLocalizedMessage() );
         }
-        Log.e("sha1","return "+vuelto);
+        Log.v( "sha1","return " + vuelto );
         return vuelto;
     }
 
-    public static String codificarContraseña(String contraseña)
+    public static String encodePassword(String password)
     {
-        Log.e("LaCrypto","return encode64(sha1(contraseña))::<<|"+contraseña);
-        //try {
-        String test = sha1(contraseña);
-            contraseña = base64.encode(test);
-        //} catch (Exception e) {
-        //    Log.e("codificarContraseña", "Error al codificar::"+e.getLocalizedMessage());
-        //}
-        return contraseña;
+        String test = sha1(password);
+            password = base64.encode(test);
+        return password;
     }
 }

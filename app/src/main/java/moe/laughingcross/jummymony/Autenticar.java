@@ -1,9 +1,5 @@
 package moe.laughingcross.jummymony;
 
-/**
- * Created by DOSmasSOD on 27/07/2016.
- */
-import android.os.NetworkOnMainThreadException;
 import android.util.Log;
 import android.widget.TextView;
 
@@ -16,7 +12,7 @@ import java.net.URLEncoder;
 
 class Autenticar {
     protected String Rut;
-    protected String Contraseña;
+    protected String Password;
     protected String Info;
     protected String Mensaje;
     protected String LoginParams;
@@ -75,21 +71,21 @@ class Autenticar {
                     .replaceAll("\\%7E", "~");
         } catch (UnsupportedEncodingException e) {
             result = s;
-            Log.e("AAAAAAAAAAAAAAAAAAAA","");
+            Log.e("ERROR",e.getLocalizedMessage(), e.getCause() );
         }
 
         return result;
     }
 
-    private void codificar()  {
+    private void encode()  {
         //TODO: SALSA 4DWin
-        Log.v("Autenticar","codificar::Contraseña.set()");
-        Contraseña = "" + Now + Pin;
+        Log.v("Autenticar","codificar::Password.set()");
+        Password = "" + Now + Pin;
         try {
-            Log.v("Autenticar","Contraseña=LaCrypto.codificarContraseña(Contraseña)::"+Contraseña);
-            Contraseña = LaCrypto.codificarContraseña(Contraseña);
+            Log.v( "Autenticar","Password = LaCrypto.encodePassword(Password)::" + Password );
+            Password = LaCrypto.encodePassword(Password);
         } catch (Exception e) {
-            Log.v("codificar()","LaCrypto.codificarContraseña(Contraseña)::"+e.getLocalizedMessage());
+            Log.e( "Error","encode(): " + e.getLocalizedMessage(), e.getCause() );
         }
         Info = encodeURIComponent( "" + Now );
     }
@@ -98,13 +94,14 @@ class Autenticar {
     {
         switch (fallo) {
             case 626:
-                contenedorMensaje.setText(R.string.error_invalid_rut);
+                contenedorMensaje.setText( "Rut Invalido" );
                 break;
             default:
-                contenedorMensaje.setText(R.string.error_unknown);
+                contenedorMensaje.setText( "Error desconocido" );
                 break;
         }
     }
+
     public String getToken( PARSEC parser )
     {
         String _tken = parser.POST( "/beneficiarios/", LoginParams + "&password=&ingresar=Ingresar" );
@@ -126,25 +123,25 @@ class Autenticar {
         Now = new Date().getTime();
         Now = Now/1000;
         Now = Math.round( Now )*1000;
-        Log.i("Autenticar","codificar");
-        codificar();
+        Log.v("Autenticar","encode()");
+        encode();
         try {
-            Log.i("Autenticar","parser.POST");
+            Log.v( "Autenticar", "parser.POST" );
             LoginParams =
                     "rut="+Rut+
-                    "&password="+Contraseña+
-                    "&passwordEnc="+Contraseña+
+                    "&password="+Password+
+                    "&passwordEnc="+Password+
                     "&info="+Info;
             Mensaje = parser.GET( APIUrl + "?action=login&" + LoginParams );
             JSONObject loginResponse = new JSONObject( Mensaje );
-            if (loginResponse.getString( "status" ).equals("OK"))
+            if (loginResponse.getString( "status" ).equals( "OK" ))
             {
-                loginResult = loginResponse.getJSONObject("result");
+                loginResult = loginResponse.getJSONObject( "result" );
                 ErrorCode = loginResult.getInt( "O_ERROR_CODE" );
                 ErrorDescription = loginResult.getString( "O_ERROR_DESCRIPTION" );
                 if ( ErrorCode == 0 )
                 {
-                    data = loginResult.getJSONObject("return").getJSONObject("beneficiary");
+                    data = loginResult.getJSONObject( "return" ).getJSONObject( "beneficiary" );
                     Mensaje = getToken( parser );
                 }
             }
@@ -162,8 +159,8 @@ class Autenticar {
                 //TODO: Validar rut de forma local
                 ErrorCode = 3007340;
             }*/
-        } catch (Exception e) {
-            Log.e("Autenticar", "Error al enviar los datos al servidor::",e);
+        } catch ( Exception e ) {
+            Log.e( "Autenticar", e.getLocalizedMessage(), e.getCause() );
         }
     }
 }

@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import org.json.JSONObject;
@@ -43,14 +44,18 @@ public class MainPage extends AppCompatActivity {
         preferences = PreferenceManager.getDefaultSharedPreferences( getBaseContext() );
         preferencesEditor = preferences.edit();
 
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.main_page_toolbar);
         setSupportActionBar(myToolbar);
+
         Intent i = getIntent();
-        Token = i.getStringExtra("Token");
         ClientId = i.getStringExtra("ClientId");
         ServiceId = i.getStringExtra("ServiceId");
         LoginParams = i.getStringExtra("LoginParams");
         SessionCookies = i.getStringExtra("SessionCookies");
+        Token = preferences.getString(
+                "token",
+                i.getStringExtra( "Token" )
+        );
 
         name = (TextView) findViewById( R.id.humanName );
         institution = (TextView) findViewById( R.id.school );
@@ -95,6 +100,8 @@ public class MainPage extends AppCompatActivity {
             case R.id.action_refresh:
                 refreshBalanceData();
                 break;
+            case R.id.action_about:
+                changeToAbout();
             default:
                 break;
         }
@@ -105,14 +112,11 @@ public class MainPage extends AppCompatActivity {
     {
         preferencesEditor.putBoolean( "AutoLog", false);
         preferencesEditor.putString( "token", "");
+        preferencesEditor.putString( "humanName", "");
+        preferencesEditor.putString( "cardStatus", "");
+        preferencesEditor.putString( "institution", "");
         preferencesEditor.commit();
-        if ( preferences.getBoolean( "Remember", false ) )
-        {
-            preferencesEditor.putString( "humanName", "");
-            preferencesEditor.putString( "cardStatus", "");
-            preferencesEditor.putString( "institution", "");
-            preferencesEditor.commit();
-        }
+        setResult(2);
         finish();
     }
 
@@ -126,6 +130,28 @@ public class MainPage extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode==2){
+            setResult(2);
+            finish();
+        }
+    }
+
+    public void changeToLatestTransactions( View view )
+    {
+        Intent i = new Intent( this, latestTransactions.class);
+        i.putExtra( "Token", Token );
+        startActivityForResult( i, 0 );
+    }
+
+    public void changeToAbout()
+    {
+        Intent i = new Intent( this, About.class);
+        startActivityForResult( i, 0 );
+
+    }
+
     class comeBotas extends AsyncTask<URL, Integer, String>
     {
         int _balance = 0;
@@ -136,10 +162,18 @@ public class MainPage extends AppCompatActivity {
             String response = parser.GET( "/wp-content/plugins/beneficiarios/api.php?action=balance&token=" + Token + "&from=19/12/2016&to=19/01/2017&clientid=1&serviceid=15" );
 
             try {
-                //TODO: check prblems here
-                _balance = (new JSONObject(response)).getJSONObject("result").getJSONObject("return").getInt("amountBalance");
+                //TODO: check problems here
+                JSONObject transactions = new JSONObject( response );
+                if ( transactions.getJSONObject( "result" )
+                        .getInt( "O_ERROR_CODE" ) == 0
+                        ) {
+                    _balance = transactions.getJSONObject("result").getJSONObject("return").getInt("amountBalance");
+                } else {
+                    Log.w( "ERROR", "Can't retrieve balance" );
+                    cancel(true);
+                }
             } catch ( Exception e) {
-                Log.e("ERROR", e.getLocalizedMessage() , e.fillInStackTrace() );
+                Log.e("ERROR", e.getLocalizedMessage() , e.getCause() );
             }
             return "";
         }
