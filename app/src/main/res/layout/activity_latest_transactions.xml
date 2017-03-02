@@ -17,18 +17,29 @@
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
             />
+        <ProgressBar
+            android:id="@+id/loadingTransactions"
+            android:layout_below="@id/transactions_toolbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:visibility="gone" />
         <LinearLayout
             android:id="@+id/TransactionList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
-            android:layout_below="@id/transactions_toolbar"
+            android:layout_below="@+id/loadingTransactions"
 
-            android:paddingRight="20dp"
-            android:paddingLeft="20dp"
-            android:paddingEnd="20dp"
-            android:paddingStart="20dp"
-            android:paddingTop="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginEnd="20dp"
 
             android:orientation="vertical">
 

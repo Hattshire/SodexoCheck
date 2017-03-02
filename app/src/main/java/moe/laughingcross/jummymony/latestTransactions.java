@@ -12,6 +12,7 @@ import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -40,6 +41,8 @@ public class latestTransactions extends AppCompatActivity {
     final String dateFormatString = "dd/MM/yyyy";
     final String parserDateFormatString = "yy/MM/dd hh:mm:ss";
 
+    final long month = 5;
+
     DateFormat dateFormat = new SimpleDateFormat( dateFormatString, Locale.getDefault() );
     DateFormat parserDateFormat = new SimpleDateFormat( parserDateFormatString, Locale.getDefault() );
 
@@ -60,8 +63,6 @@ public class latestTransactions extends AppCompatActivity {
         token = i.getStringExtra("Token");
 
         baseLayout = (LinearLayout) findViewById(R.id.TransactionList);
-
-        int month = 5;
 
         getTransactions(
                 dateFormat.format( System.currentTimeMillis() - 2629746000L*month ),
@@ -85,7 +86,11 @@ public class latestTransactions extends AppCompatActivity {
                 endSession();
                 break;
             case R.id.action_refresh:
-                //refreshBalanceData();
+                baseLayout.removeAllViews();
+                getTransactions(
+                        dateFormat.format( System.currentTimeMillis() - 2629746000L*month ),
+                        dateFormat.format( System.currentTimeMillis() )
+                );
                 break;
             case R.id.action_about:
                 changeToAbout();
@@ -298,11 +303,17 @@ public class latestTransactions extends AppCompatActivity {
          JSONArray transactionList;
          String _from, _to;
 
+        @Override
+        protected void onPreExecute()
+        {
+            findViewById(R.id.loadingTransactions).setVisibility( View.VISIBLE );
+        }
+
          @Override
          protected Boolean doInBackground(String... params) {
 
-            String _from = params[0];
-            String _to = params[1];
+            _from = params[0];
+            _to = params[1];
 
             PARSEC parser = new PARSEC();
             // TODO: Make a parser for the API
@@ -316,7 +327,12 @@ public class latestTransactions extends AppCompatActivity {
                         ) {
                     transactions = transactions.getJSONObject("result").getJSONObject("return");
                     try {
-                        transactionList = transactions.getJSONArray("recordTx");
+                        if ( transactions.optJSONArray("recordTx") != null )
+                            transactionList = transactions.getJSONArray("recordTx");
+                        else {
+                            transactionList = new JSONArray();
+                            transactionList.put( transactions.getJSONObject("recordTx") );
+                        }
                     } catch ( JSONException e )
                     {
                         if ( e.getMessage().equals( "No value for recordTx" ) )
@@ -385,6 +401,7 @@ public class latestTransactions extends AppCompatActivity {
                     Log.e("ERROR", e.getLocalizedMessage(), e.getCause());
                     return;
                 }
+                findViewById(R.id.loadingTransactions).setVisibility( View.GONE );
             }
             setDateInRange( _from, _to ,rangeBegin, rangeEnd );
         }
@@ -395,4 +412,5 @@ public class latestTransactions extends AppCompatActivity {
              gTo = to;
          }
     }
+
 }

@@ -9,10 +9,16 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.amazon.device.ads.AdLayout;
+import com.amazon.device.ads.AdRegistration;
+import com.amazon.device.ads.AdTargetingOptions;
 
 import java.net.URL;
 
@@ -41,6 +47,8 @@ public class DatosDeSesion extends AppCompatActivity {
     SharedPreferences preferences;
     SharedPreferences.Editor preferencesEditor;
 
+    AdLayout adView;
+
     private TextWatcher tWatch = new TextWatcher()
     {
         @Override
@@ -58,16 +66,19 @@ public class DatosDeSesion extends AppCompatActivity {
     };
 
     public void sufficentLogin() {
-        if (campoRut.length() > 8 && campoPin.length() >= 4)
-            findViewById(R.id.botonIniciarSesion).setEnabled(true);
-        else
-            findViewById(R.id.botonIniciarSesion).setEnabled(false);
+        try {
+            if (campoRut.length() > 8 && campoPin.length() >= 4)
+                findViewById(R.id.botonIniciarSesion).setEnabled(true);
+            else
+                findViewById(R.id.botonIniciarSesion).setEnabled(false);
+        } catch ( NullPointerException e ) {
+            Log.e("JunaCoffeeLogin", "Unexpected NullPointer Exception on field check", e.getCause());
+        }
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         preferences = PreferenceManager.getDefaultSharedPreferences( getBaseContext() );
         preferencesEditor = preferences.edit();
 
@@ -105,7 +116,38 @@ public class DatosDeSesion extends AppCompatActivity {
 
             campoRut.setText( preferences.getString("Rut","") );
             campoPin.setText( preferences.getString("Pin","") );
+/////////////////////////////////
+        AdRegistration.setAppKey("602b74a12ba04ab4a4ca98f4703267cc");
+        AdRegistration.enableTesting(true);
+        AdRegistration.enableLogging(true);
+
+        // Programmatically create the AmazonAdLayout
+        adView = new AdLayout(this);
+        adView.setListener(new MyAdListener());
+        RelativeLayout layout = (RelativeLayout) findViewById(R.id.loginLayout);
+
+        // Set the correct width and height of the ad
+        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.MATCH_PARENT,
+                RelativeLayout.LayoutParams.MATCH_PARENT);
+        lp.addRule(RelativeLayout.BELOW, R.id.mensajeError);
+        lp.setMargins(
+                0, //Left
+                (int) TypedValue.applyDimension(
+                        TypedValue.COMPLEX_UNIT_DIP, 20F, getResources().getDisplayMetrics()
+                ), //Top
+                0, //Right
+                0  //Bottom
+        );
+        layout.addView(adView,lp);
+
+        AdTargetingOptions adOptions = new AdTargetingOptions().enableGeoLocation(true);
+
+        // Optional: Set ad targeting options here.
+        adView.loadAd(adOptions); // Retrieves an ad on background thread
+/////////////////////////////////
     }
+
 
     private void Recordar()
     {
@@ -250,5 +292,11 @@ public class DatosDeSesion extends AppCompatActivity {
         ( findViewById( R.id.cb_logMe ) ).setEnabled( true );
         ( findViewById( R.id.loadingObject ) ).setVisibility( View.GONE );
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if( resultCode == 2 ){
+        }
     }
 }

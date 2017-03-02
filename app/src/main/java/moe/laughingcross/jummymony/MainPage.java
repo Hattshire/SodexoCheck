@@ -2,21 +2,34 @@ package moe.laughingcross.jummymony;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.Toolbar;
+import android.text.Layout;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.amazon.device.ads.AdLayout;
+import com.amazon.device.ads.AdRegistration;
+import com.amazon.device.ads.AdTargetingOptions;
 
 import org.json.JSONObject;
 
 import java.net.URL;
+
+import static android.content.res.Configuration.ORIENTATION_LANDSCAPE;
 
 public class MainPage extends AppCompatActivity {
 
@@ -31,6 +44,7 @@ public class MainPage extends AppCompatActivity {
     TextView cardStatus;
     TextView balance;
 
+    AdLayout adView;
 
     SharedPreferences preferences;
     SharedPreferences.Editor preferencesEditor;
@@ -57,6 +71,8 @@ public class MainPage extends AppCompatActivity {
                 i.getStringExtra( "Token" )
         );
 
+        ( (ImageView) findViewById(R.id.head) ).setColorFilter(R.color.colorAccent, PorterDuff.Mode.MULTIPLY);
+
         name = (TextView) findViewById( R.id.humanName );
         institution = (TextView) findViewById( R.id.school );
         cardStatus = (TextView) findViewById( R.id.cardStatus );
@@ -78,6 +94,14 @@ public class MainPage extends AppCompatActivity {
                         getString(R.string.balanceFormat), preferences.getInt( "latestBalance", 0 )
                 )
         );
+///////////////////////////////
+        adView = (AdLayout) findViewById(R.id.mainPageAdView);
+        adView.setListener(new MyAdListener());
+        AdTargetingOptions adOptions = new AdTargetingOptions().enableGeoLocation(true);
+
+        // Optional: Set ad targeting options here.
+        adView.loadAd(adOptions); // Retrieves an ad on background thread
+/////////////////////////////////
 
     }
 
@@ -132,11 +156,12 @@ public class MainPage extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(resultCode==2){
-            setResult(2);
+        if( resultCode == 2 ){
+            setResult( 2 );
             finish();
         }
     }
+
 
     public void changeToLatestTransactions( View view )
     {

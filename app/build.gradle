@@ -12,8 +12,11 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            renderscriptOptimLevel 5
         }
     }
     productFlavors {
@@ -21,10 +24,12 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     // https://mvnrepository.com/artifact/commons-codec/commons-codec
     compile 'com.android.support:appcompat-v7:23.4.0'
     compile 'commons-codec:commons-codec:1.10'
     compile 'com.android.support:design:23.4.0'
+    compile 'com.google.android.gms:play-services-ads:10.2.0'
+    compile 'com.amazon.android:mobile-ads:5.+'
 }

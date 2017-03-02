@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SodexoCheck</string>
+    <string name="app_name">JunaCoffee</string>
     <string name="title_activity_datos_de_sesion">Iniciar Sesión</string>
 
     <string name="prompt_rut">Rut</string>
