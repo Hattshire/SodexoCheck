@@ -117,6 +117,9 @@ public class latestTransactions extends AppCompatActivity {
 
     void endSession()
     {
+        if  ( preferences.getBoolean( "screenTester", false ) ) {
+            preferencesEditor.remove( "screenTester" );
+        }
         preferencesEditor.putBoolean( "AutoLog", false);
         preferencesEditor.putString( "token", "");
         preferencesEditor.putString( "humanName", "");

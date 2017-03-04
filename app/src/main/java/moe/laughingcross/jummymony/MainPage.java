@@ -74,10 +74,7 @@ public class MainPage extends AppCompatActivity {
                 "token",
                 i.getStringExtra( "Token" )
         );
-        if ( Build.VERSION.SDK_INT >= 21 )
-            ( (ImageView) findViewById(R.id.head) ).setColorFilter( getColor( R.color.colorAccent ), PorterDuff.Mode.SRC_IN );
-        else
-            ( (ImageView) findViewById(R.id.head) ).setColorFilter( getResources().getColor( R.color.colorAccent ), PorterDuff.Mode.SRC_IN );
+        ( (ImageView) findViewById(R.id.head) ).setColorFilter( getResources().getColor( R.color.colorAccent ), PorterDuff.Mode.SRC_IN );
 
         name = (TextView) findViewById( R.id.humanName );
         institution = (TextView) findViewById( R.id.school );
@@ -101,15 +98,21 @@ public class MainPage extends AppCompatActivity {
         balance.setText(
                 getString( R.string.balanceNull )
         );
-///////////////////////////////
-        adView = (AdLayout) findViewById(R.id.mainPageAdView);
-        adView.setListener(new MyAdListener());
-        AdTargetingOptions adOptions = new AdTargetingOptions().enableGeoLocation(true);
+        if  ( preferences.getBoolean( "screenTester", false ) ) {
+            name.setText( getString( R.string.exampleName ) );
+            institution.setText( getString( R.string.default_college ) );
+        }
+        else
+        {
+//////////////////////////////////////////////////////////////
+            adView = (AdLayout) findViewById(R.id.mainPageAdView);
+            adView.setListener(new MyAdListener());
+            AdTargetingOptions adOptions = new AdTargetingOptions().enableGeoLocation(true);
 
-        // Optional: Set ad targeting options here.
-        adView.loadAd(adOptions); // Retrieves an ad on background thread
-/////////////////////////////////
-
+            // Optional: Set ad targeting options here.
+            adView.loadAd(adOptions); // Retrieves an ad on background thread
+//////////////////////////////////////////////////////////////
+        }
     }
 
     @Override
@@ -141,13 +144,16 @@ public class MainPage extends AppCompatActivity {
 
     void endSession()
     {
+        if  ( preferences.getBoolean( "screenTester", false ) ) {
+            preferencesEditor.remove( "screenTester" );
+        }
         // Clear preferences and data
         preferencesEditor.putBoolean( "AutoLog", false);
         preferencesEditor.putString( "token", "");
         preferencesEditor.putString( "humanName", "");
         preferencesEditor.putString( "cardStatus", "");
         preferencesEditor.putString( "institution", "");
-        preferencesEditor.putInt( "latestBalance", 0);
+        preferencesEditor.putInt( "latestBalance", -1);
         preferencesEditor.commit();
 
         // Give SIG_LOGOUT message

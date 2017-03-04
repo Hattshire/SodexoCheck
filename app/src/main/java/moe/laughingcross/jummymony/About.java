@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -14,6 +15,8 @@ public class About extends AppCompatActivity {
 
     SharedPreferences preferences;
     SharedPreferences.Editor preferencesEditor;
+
+    Integer count = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +47,7 @@ public class About extends AppCompatActivity {
                 endSession();
                 break;
             case R.id.action_refresh:
-                //refreshBalanceData();
+                testMode();
                 break;
             case R.id.action_about:
                 //changeToAbout();
@@ -64,5 +67,17 @@ public class About extends AppCompatActivity {
         preferencesEditor.commit();
         setResult(2);
         finish();
+    }
+
+    void testMode()
+    {
+        count++;
+        if ( count >= 62 )
+        {
+            preferencesEditor.putBoolean( "screenTester", true );
+            preferencesEditor.commit();
+            count = 0;
+            Log.i( "JunaCoffee", "Screentester mode" );
+        }
     }
 }
