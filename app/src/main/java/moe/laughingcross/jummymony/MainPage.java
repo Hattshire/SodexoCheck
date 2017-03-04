@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
@@ -73,8 +74,10 @@ public class MainPage extends AppCompatActivity {
                 "token",
                 i.getStringExtra( "Token" )
         );
-
-        ( (ImageView) findViewById(R.id.head) ).setColorFilter(R.color.colorAccent, PorterDuff.Mode.MULTIPLY);
+        if ( Build.VERSION.SDK_INT >= 21 )
+            ( (ImageView) findViewById(R.id.head) ).setColorFilter( getColor( R.color.colorAccent ), PorterDuff.Mode.SRC_IN );
+        else
+            ( (ImageView) findViewById(R.id.head) ).setColorFilter( getResources().getColor( R.color.colorAccent ), PorterDuff.Mode.SRC_IN );
 
         name = (TextView) findViewById( R.id.humanName );
         institution = (TextView) findViewById( R.id.school );

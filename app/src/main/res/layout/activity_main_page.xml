@@ -29,44 +29,46 @@
             android:paddingEnd="20dp"
             android:paddingStart="20dp"
             android:paddingTop="20dp">
-
-            <ImageView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                app:srcCompat="@drawable/guyrl_head"
-                android:id="@+id/head"
-                android:contentDescription="@string/logo_description"/>
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:layout_toRightOf="@id/head"
-                android:layout_toEndOf="@id/head"
-                android:orientation="vertical">
-                <TextView
-                    android:id="@+id/humanName"
-                    android:layout_width="fill_parent"
+                android:orientation="horizontal"
+                >
+                <ImageView
+                    android:layout_width="66dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="bottom"
+                    app:srcCompat="@drawable/android_contact"
+                    android:id="@+id/head"
+                    android:contentDescription="@string/logo_description"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:textSize="25sp"
-                    android:textColor="@color/colorAccent"
-                    android:text="@string/exampleName"/>
-                <TextView
-                    android:id="@+id/school"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:textColor="@color/colorAccent"
-                    android:text="@string/default_college"/>
-                <TextView
-                    android:id="@+id/cardStatus"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:textColor="@color/colorAccent"
-                    android:textStyle="italic"
-                    android:text="@string/example_cardStatus"/>
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/humanName"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        android:textSize="25sp"
+                        android:textColor="@color/colorAccent"
+                        android:text="@string/exampleName"/>
+                    <TextView
+                        android:id="@+id/school"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        android:textColor="@color/colorAccent"
+                        android:text="@string/default_college"/>
+                    <TextView
+                        android:id="@+id/cardStatus"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        android:textColor="@color/colorAccent"
+                        android:textStyle="italic"
+                        android:text="@string/example_cardStatus"/>
+                </LinearLayout>
             </LinearLayout>
 
         </RelativeLayout>
