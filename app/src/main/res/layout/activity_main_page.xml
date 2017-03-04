@@ -87,7 +87,7 @@
                     android:id="@+id/balance"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:text="@string/_exampleBalance"
+                    android:text="@string/balanceNull"
                     android:textStyle="bold"
                     android:gravity="center"
                     android:textSize="50sp"
@@ -100,6 +100,39 @@
                     android:textColor="@color/colorPrimary"
                     android:textSize="30sp"
                     android:layout_margin="15dp"/>
+
+                <TextView
+                    android:id="@+id/lastBalanceValue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/balanceNull"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentBottom="true"
+                    android:gravity="end"
+                    android:textSize="18sp"
+                    android:textColor="@color/colorPrimary"
+                    android:paddingBottom="5dp"
+                    android:paddingEnd="5dp"
+                    android:paddingRight="5dp"
+                    android:paddingLeft="5dp"
+                    android:visibility="gone"/>
+
+                <TextView
+                    android:id="@+id/lastBalance"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:text="@string/lastBalance"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="20sp"
+                    android:gravity="end"
+                    android:layout_alignParentBottom="true"
+                    android:paddingBottom="25dp"
+                    android:paddingEnd="5dp"
+                    android:paddingRight="5dp"
+                    android:paddingLeft="5dp"
+                    android:visibility="gone"/>
             </RelativeLayout>
 
         <com.amazon.device.ads.AdLayout

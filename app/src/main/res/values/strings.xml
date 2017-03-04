@@ -21,4 +21,6 @@
     <string name="about_page">Acerca de…</string>
     <string name="about_page_text">Hecho 98% a base de dulces y cafeína ;)\n Creada por: Oliver Hattshire\n \n No me hago responsable del mal uso de esta aplicación.\n La seguridad aplicada por Sodexo es bastante mala, por lo que si tu teléfono es seguro, tu cuenta lo estará aun más.</string>
     <string name="example_cardStatus">Tarjeta Activa</string>
+    <string name="balanceNull">$-</string>
+    <string name="lastBalance">Último saldo registrado:</string>
 </resources>

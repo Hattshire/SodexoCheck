@@ -44,6 +44,9 @@ public class MainPage extends AppCompatActivity {
     TextView cardStatus;
     TextView balance;
 
+    TextView latestBalance;
+    TextView latestBalanceValue;
+
     AdLayout adView;
 
     SharedPreferences preferences;
@@ -78,6 +81,9 @@ public class MainPage extends AppCompatActivity {
         cardStatus = (TextView) findViewById( R.id.cardStatus );
         balance = (TextView) findViewById( R.id.balance );
 
+        latestBalance = (TextView) findViewById( R.id.lastBalance );
+        latestBalanceValue = (TextView) findViewById( R.id.lastBalanceValue );
+
         name.setText( preferences.getString( "humanName", "" ) );
         institution.setText( preferences.getString( "institution", "" ) );
         cardStatus.setText(
@@ -90,9 +96,7 @@ public class MainPage extends AppCompatActivity {
         (new comeBotas()).execute();
 
         balance.setText(
-                String.format(
-                        getString(R.string.balanceFormat), preferences.getInt( "latestBalance", 0 )
-                )
+                getString( R.string.balanceNull )
         );
 ///////////////////////////////
         adView = (AdLayout) findViewById(R.id.mainPageAdView);
@@ -134,12 +138,16 @@ public class MainPage extends AppCompatActivity {
 
     void endSession()
     {
+        // Clear preferences and data
         preferencesEditor.putBoolean( "AutoLog", false);
         preferencesEditor.putString( "token", "");
         preferencesEditor.putString( "humanName", "");
         preferencesEditor.putString( "cardStatus", "");
         preferencesEditor.putString( "institution", "");
+        preferencesEditor.putInt( "latestBalance", 0);
         preferencesEditor.commit();
+
+        // Give SIG_LOGOUT message
         setResult(2);
         finish();
     }
@@ -179,13 +187,47 @@ public class MainPage extends AppCompatActivity {
 
     class comeBotas extends AsyncTask<URL, Integer, String>
     {
-        int _balance = 0;
+        int _balance;
+
+        @Override
+        protected void onPreExecute(  )
+        {
+            _balance = preferences.getInt( "latestBalance", -1 );
+            balance.setText(
+                    getString( R.string.balanceNull )
+            );
+            if ( _balance >= 0 ) {
+                latestBalanceValue.setText(
+                        String.format(
+                                getString(R.string.balanceFormat),
+                                _balance
+                        )
+                );
+            }
+            else {
+                latestBalanceValue.setText(
+                                getString(R.string.balanceNull)
+                );
+            }
+            latestBalance.setVisibility( View.VISIBLE );
+            latestBalanceValue.setVisibility( View.VISIBLE );
+        }
+
         @Override
         protected String doInBackground( URL... urls )
         {
             PARSEC parser = new PARSEC();
             String response = parser.GET( "/wp-content/plugins/beneficiarios/api.php?action=balance&token=" + Token + "&from=19/12/2016&to=19/01/2017&clientid=1&serviceid=15" );
 
+            if ( response.equals( "ERROR|connectionFailed" ) )
+            {
+                return response;
+            }
+            else if ( response.startsWith( "ERROR" ) )
+            {
+                Log.d( "JunaCoffee", String.format( "Catch this! %s", response ) );
+                return response;
+            }
             try {
                 //TODO: check problems here
                 JSONObject transactions = new JSONObject( response );
@@ -206,13 +248,21 @@ public class MainPage extends AppCompatActivity {
         @Override
         protected void onPostExecute( String texto )
         {
+            //TODO: Error handling
+            if ( texto.length() > 0 )
+                return;
+
             preferencesEditor.putInt( "latestBalance", _balance );
+            preferencesEditor.commit();
+
             balance.setText(
                     String.format(
                             getString( R.string.balanceFormat ),
                             _balance
                     )
             );
+            latestBalance.setVisibility( View.GONE );
+            latestBalanceValue.setVisibility( View.GONE );
         }
     }
 }
