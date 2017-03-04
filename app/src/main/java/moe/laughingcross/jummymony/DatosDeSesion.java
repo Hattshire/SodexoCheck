@@ -117,7 +117,7 @@ public class DatosDeSesion extends AppCompatActivity {
             campoRut.setText( preferences.getString("Rut","") );
             campoPin.setText( preferences.getString("Pin","") );
 /////////////////////////////////
-        AdRegistration.setAppKey("602b74a12ba04ab4a4ca98f4703267cc");
+        AdRegistration.setAppKey("2c90b659d1c442cdb3b1d72eb7408458");
         AdRegistration.enableTesting(true);
         AdRegistration.enableLogging(true);
 
