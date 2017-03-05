@@ -117,9 +117,14 @@ public class DatosDeSesion extends AppCompatActivity {
             campoRut.setText( preferences.getString("Rut","") );
             campoPin.setText( preferences.getString("Pin","") );
 /////////////////////////////////
+        // Ad debug keys
         AdRegistration.setAppKey("2c90b659d1c442cdb3b1d72eb7408458");
-        AdRegistration.enableTesting(true);
-        AdRegistration.enableLogging(true);
+
+        // Ad debug flags
+        if ( DebugCheck.isDebuggable( this ) ) {
+            AdRegistration.enableTesting(true);
+            AdRegistration.enableLogging(true);
+        }
 
         // Programmatically create the AmazonAdLayout
         adView = new AdLayout(this);
