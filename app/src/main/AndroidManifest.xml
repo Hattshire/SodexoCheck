@@ -2,13 +2,21 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="moe.laughingcross.jummymony">
+
+    <uses-feature android:name="android.hardware.location.gps" android:required="false"/>
+    <uses-feature android:name="android.hardware.location.network" android:required="false"/>
+    <uses-feature android:name="android.hardware.location" android:required="false"/>
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
-    <uses-sdk tools:overrideLibrary="com.google.android.gms.ads, com.google.android.gms.ads.impl, com.google.android.gms, com.google.android.gms.gass, com.google.android.gms.tasks, com.google.android.gms.clearcut, com.google.android.gms.base" />
+    <uses-sdk
+        android:minSdkVersion="9"
+        tools:overrideLibrary="com.google.android.gms.ads, com.google.android.gms.ads.impl, com.google.android.gms, com.google.android.gms.gass, com.google.android.gms.tasks, com.google.android.gms.clearcut, com.google.android.gms.base" />
+    <uses-amzn-sdk android:minSdkVersion="0" />
 
     <application
         android:allowBackup="true"
