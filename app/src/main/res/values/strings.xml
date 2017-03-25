@@ -23,4 +23,5 @@
     <string name="example_cardStatus">Tarjeta Activa</string>
     <string name="balanceNull">$-</string>
     <string name="lastBalance">Último saldo registrado:</string>
+    <string name="banner_ad_unit_id">ca-app-pub-9206593998355776/4199340643</string>
 </resources>

@@ -22,14 +22,15 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.amazon.device.ads.AdLayout;
-import com.amazon.device.ads.AdRegistration;
-import com.amazon.device.ads.AdTargetingOptions;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 
 import org.json.JSONObject;
 
 import java.net.URL;
 
+import static android.R.color.white;
 import static android.content.res.Configuration.ORIENTATION_LANDSCAPE;
 
 public class MainPage extends AppCompatActivity {
@@ -47,8 +48,6 @@ public class MainPage extends AppCompatActivity {
 
     TextView latestBalance;
     TextView latestBalanceValue;
-
-    AdLayout adView;
 
     SharedPreferences preferences;
     SharedPreferences.Editor preferencesEditor;
@@ -105,12 +104,10 @@ public class MainPage extends AppCompatActivity {
         else
         {
 //////////////////////////////////////////////////////////////
-            adView = (AdLayout) findViewById(R.id.mainPageAdView);
-            adView.setListener(new MyAdListener());
-            AdTargetingOptions adOptions = new AdTargetingOptions().enableGeoLocation(true);
-
-            // Optional: Set ad targeting options here.
-            adView.loadAd(adOptions); // Retrieves an ad on background thread
+            MobileAds.initialize(getApplicationContext(), "ca-app-pub-9206593998355776~7292407845");
+            AdView mAdView = (AdView) findViewById(R.id.LMBMain);
+            AdRequest adRequest = new AdRequest.Builder().build();
+            mAdView.loadAd(adRequest);
 //////////////////////////////////////////////////////////////
         }
     }

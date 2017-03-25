@@ -16,9 +16,9 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.amazon.device.ads.AdLayout;
-import com.amazon.device.ads.AdRegistration;
-import com.amazon.device.ads.AdTargetingOptions;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 
 import java.net.URL;
 
@@ -46,8 +46,6 @@ public class DatosDeSesion extends AppCompatActivity {
 
     SharedPreferences preferences;
     SharedPreferences.Editor preferencesEditor;
-
-    AdLayout adView;
 
     private TextWatcher tWatch = new TextWatcher()
     {
@@ -88,8 +86,12 @@ public class DatosDeSesion extends AppCompatActivity {
         //TODO: Check token
         validToken = true;
         try {
-            if (preferences.getBoolean("AutoLog", false) && connected && (validToken || preferences.getString("Pin", "").length() > 0)) {
-                Token = preferences.getString("Token", "");
+            if ( preferences.getBoolean( "AutoLog", false ) &&
+                 connected &&
+                 ( validToken || preferences.getString( "Pin", "" ).length() > 0 )
+               )
+            {
+                Token = preferences.getString( "Token", "" );
 
                 //TODO: Dynamic Asignation of CID, SID, Cookies, etc...
                 ClientId = "" + 1;
@@ -107,49 +109,21 @@ public class DatosDeSesion extends AppCompatActivity {
         {
             Log.e( "ERROR", e.getLocalizedMessage(), e.getCause() );
         }
-            setContentView(R.layout.activity_datos_de_sesion);
-            campoRut = (EditText) findViewById(R.id.rut);
-            campoPin = (EditText) findViewById(R.id.Pin);
+        setContentView( R.layout.activity_datos_de_sesion );
+        campoRut = ( EditText ) findViewById( R.id.rut );
+        campoPin = ( EditText ) findViewById( R.id.Pin );
 
-            campoRut.addTextChangedListener(tWatch);
-            campoPin.addTextChangedListener(tWatch);
+        campoRut.addTextChangedListener( tWatch );
+        campoPin.addTextChangedListener( tWatch );
 
-            campoRut.setText( preferences.getString("Rut","") );
-            campoPin.setText( preferences.getString("Pin","") );
+        campoRut.setText( preferences.getString( "Rut", "" ) );
+        campoPin.setText( preferences.getString( "Pin", "" ) );
 /////////////////////////////////
-        // Ad debug keys
-        AdRegistration.setAppKey("2c90b659d1c442cdb3b1d72eb7408458");
-
-        // Ad debug flags
-        if ( DebugCheck.isDebuggable( this ) ) {
-            AdRegistration.enableTesting(true);
-            AdRegistration.enableLogging(true);
-        }
-
-        // Programmatically create the AmazonAdLayout
-        adView = new AdLayout(this);
-        adView.setListener(new MyAdListener());
-        RelativeLayout layout = (RelativeLayout) findViewById(R.id.loginLayout);
-
-        // Set the correct width and height of the ad
-        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
-                RelativeLayout.LayoutParams.MATCH_PARENT,
-                RelativeLayout.LayoutParams.MATCH_PARENT);
-        lp.addRule(RelativeLayout.BELOW, R.id.mensajeError);
-        lp.setMargins(
-                0, //Left
-                (int) TypedValue.applyDimension(
-                        TypedValue.COMPLEX_UNIT_DIP, 20F, getResources().getDisplayMetrics()
-                ), //Top
-                0, //Right
-                0  //Bottom
-        );
-        layout.addView(adView,lp);
-
-        AdTargetingOptions adOptions = new AdTargetingOptions().enableGeoLocation(true);
-
-        // Optional: Set ad targeting options here.
-        adView.loadAd(adOptions); // Retrieves an ad on background thread
+        MobileAds.initialize( getApplicationContext(), "ca-app-pub-9206593998355776~7292407845" );
+        
+        AdView mAdView = ( AdView ) findViewById(R.id.LMBLogin);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd( adRequest );
 /////////////////////////////////
     }
 
